@@ -81,7 +81,7 @@
 								<h5>Price</h5>
 							</div>
 							<div class="col s7">
-								<h5>$20</h5>
+								<h5>$2</h5>
 							</div>
 						</div>
 						<div class="row">
@@ -255,7 +255,7 @@
 <div class="section product">
 	<div class="container">
 		<div class="section-head">
-			<h4>NEW PRODUCT</h4>
+			<h4>最新商品</h4>
 			<div class="divider-top"></div>
 			<div class="divider-bottom"></div>
 		</div>
@@ -263,7 +263,7 @@
 			<div class="col s6">
 				<div class="content">
 					<img src="img/product-new1.png" alt="">
-					<h6><a href="">Fashion Men's</a></h6>
+					<h6><a href="">1</a></h6>
 					<div class="price">
 						$20 <span>$28</span>
 					</div>
@@ -273,7 +273,7 @@
 			<div class="col s6">
 				<div class="content">
 					<img src="img/product-new2.png" alt="">
-					<h6><a href="">Fashion Men's</a></h6>
+					<h6><a href="">2</a></h6>
 					<div class="price">
 						$20 <span>$28</span>
 					</div>
