@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '商店首页')
+@section('title', '品牌分类')
 
 
 
@@ -9,81 +9,27 @@
 <div class="section product product-list">
     <div class="container">
         <div class="pages-head">
-            <h3>PRODUCT LIST</h3>
+            <h3>品牌分类</h3>
         </div>
         <div class="input-field">
-            <select id="brand">
-                @foreach($brandInfo as $k=>$v)
-                    <option value="">{{$v['brand_name']}}</option>
-                @endforeach
-            </select>
-
+            @foreach($brandInfo as $k=>$v)
+                <a href="/brand/{{$v['brand_id']}}" >{{$v['brand_name']}}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+            @endforeach
+            <br><br>
         </div>
         <div class="row">
+            @foreach($goods_info as $k=>$v)
             <div class="col s6">
                 <div class="content">
-                    <img src="img/product-new1.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
+                    <img src="/img/{{$v['goods_img']}}" alt="">
+                    <h6><a href="/goodsdetail/{{$v['goods_id']}}">{{$v['goods_name']}}</a></h6>
                     <div class="price">
-                        $20 <span>$28</span>
+                        ${{$v['goods_price']}}<span>${{$v['goods_bzprice']}}</span>
                     </div>
-                    <button class="btn button-default">ADD TO CART</button>
+                    <button class="btn button-default">加入购物车</button>
                 </div>
             </div>
-            <div class="col s6">
-                <div class="content">
-                    <img src="img/product-new2.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
-                    <div class="price">
-                        $20 <span>$28</span>
-                    </div>
-                    <button class="btn button-default">ADD TO CART</button>
-                </div>
-            </div>
-        </div>
-        <div class="row margin-bottom">
-            <div class="col s6">
-                <div class="content">
-                    <img src="img/product-new3.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
-                    <div class="price">
-                        $20 <span>$28</span>
-                    </div>
-                    <button class="btn button-default">ADD TO CART</button>
-                </div>
-            </div>
-            <div class="col s6">
-                <div class="content">
-                    <img src="img/product-new4.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
-                    <div class="price">
-                        $20 <span>$28</span>
-                    </div>
-                    <button class="btn button-default">ADD TO CART</button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s6">
-                <div class="content">
-                    <img src="img/product-new3.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
-                    <div class="price">
-                        $20 <span>$28</span>
-                    </div>
-                    <button class="btn button-default">ADD TO CART</button>
-                </div>
-            </div>
-            <div class="col s6">
-                <div class="content">
-                    <img src="img/product-new4.png" alt="">
-                    <h6><a href="">Fashion Men's</a></h6>
-                    <div class="price">
-                        $20 <span>$28</span>
-                    </div>
-                    <button class="btn button-default">ADD TO CART</button>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="pagination-product">
             <ul>
@@ -102,9 +48,4 @@
 <!-- loader -->
 <div id="fakeLoader"></div>
 <!-- end loader -->
-<script>
-    $(function(){
-        $("#brand").change()
-    })
-</script>
 @endsection

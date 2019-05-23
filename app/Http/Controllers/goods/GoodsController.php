@@ -13,10 +13,16 @@ class GoodsController extends Controller
         $goods_info=Goods::where(['goods_id'=>$goods_id])->first()->toArray();
         return view('goods.goodsdetail',['goods_info'=>$goods_info]);
     }
-    public function brand(){
+    public function brand($brand_id="a"){
         $brandInfo=Brand::where(['brand_show'=>1])->get()->toArray();
+        if($brand_id=="a"){
+            $goods_info=Goods::where(['goods_show'=>1])->get()->toArray();
+        }else{
+            $goods_info=Goods::where(['brand_id'=>$brand_id])->get()->toArray();
+        }
         $data=[
-          'brandInfo'=>$brandInfo,
+            'brandInfo'=>$brandInfo,
+            'goods_info'=>$goods_info,
         ];
         return view('goods.brand',$data);
     }
