@@ -41,7 +41,7 @@ class CollectController extends Controller
                 return json_encode($arr,JSON_UNESCAPED_UNICODE);
             }else{
                 $arr=[
-                    'errno'=>50030,
+                    'errno'=>50050,
                     'msg'=>'收藏失败'
                 ];
                 return json_encode($arr,JSON_UNESCAPED_UNICODE);
