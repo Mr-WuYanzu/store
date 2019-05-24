@@ -13,8 +13,10 @@ Route::post('/order/checkout','order\OrderController@order');
 Route::get('/order/order_list','order\OrderController@order_list');
 //订单支付
 Route::get('/pay/alipay','pay\PayController@pay');
-
-
+//支付回调异步
+Route::get('/notify_url','pay\PayController@notify');
+//支付回调同步
+Route::get('/return_url','pay\PayController@aliReturn');
 //加入购物车
 Route::get('/cart/add/{goods_id?}','cart\CartController@cart_add');
 
