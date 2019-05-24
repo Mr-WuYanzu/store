@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/img/favicon.png">
+
     <script src="/js/jquery-3.2.1.min.js"></script>
+
 </head>
 <body>
 
@@ -374,8 +376,7 @@
     </div>
     <!-- end navbar bottom -->
 
-
-<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/fakeLoader.min.js"></script>

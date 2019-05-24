@@ -18,7 +18,7 @@
 
 	<ul class="slides">
 		<li>
-			<img src="img/slide1.jpg" alt="">
+			<img src="img/a1.jpg" alt="">
 			<div class="caption slider-content  center-align">
 				<h2>WELCOME TO MSTORE</h2>
 				<h4>Lorem ipsum dolor sit amet.</h4>
@@ -26,7 +26,7 @@
 			</div>
 		</li>
 		<li>
-			<img src="img/slide2.jpg" alt="">
+			<img src="img/a2.jpg" alt="">
 			<div class="caption slider-content center-align">
 				<h2>JACKETS BUSINESS</h2>
 				<h4>Lorem ipsum dolor sit amet.</h4>
@@ -34,7 +34,7 @@
 			</div>
 		</li>
 		<li>
-			<img src="img/slide3.jpg" alt="">
+			<img src="img/a3.jpg" alt="">
 			<div class="caption slider-content center-align">
 				<h2>FASHION SHOP</h2>
 				<h4>Lorem ipsum dolor sit amet.</h4>
