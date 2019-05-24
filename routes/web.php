@@ -24,8 +24,6 @@ Route::post('/set_new_password','User\UserController@set_new_password');//执行
 Route::get('/about_us','User\UserController@about_us');//关于我们
 
 
-//支付
-Route::get('/pay/{oid}','pay\PayController@pay');
 //购物车列表
 Route::get('/cart/list','cart\CartController@cart_list');
 //删除购物车订单
