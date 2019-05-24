@@ -41,6 +41,7 @@
             <li class="profil">
                 <img src="img/profile.jpg" alt="">
                 <h2>John Doe</h2>
+                <a href="/logout" style="color:rebeccapurple">退出登录</a>
             </li>
             <li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
             <li><a href="/about_us"><i class="fa fa-user"></i>About Us</a></li>
