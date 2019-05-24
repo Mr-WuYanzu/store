@@ -56,7 +56,8 @@ class OrderController extends Controller
         $cart_info=Cart::join('shop_goods','shop_goods.goods_id','=','shop_cart.goods_id')
             ->where('user_id',$user_id)
             ->whereIn('id',$c_id)->get();
-        return view('order.order_list',['cart_info'=>$cart_info]);
+        $res=json_decode($this->cart_little(),true);
+        return view('order.order_list',['cart_info'=>$cart_info,'res'=>$res]);
     }
    //生成订单
     public function order(Request $request){

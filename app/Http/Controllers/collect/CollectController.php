@@ -107,9 +107,10 @@ class CollectController extends Controller
         }
         $collectInfo=Collect::where(['user_id'=>$user_id,'is_del'=>1])->get();
 //        dd($collectInfo);
-        return view('collect.wishlist',compact('collectInfo'));
+        $res=json_decode($this->cart_little(),true);
+        return view('collect.wishlist',compact('collectInfo','res'));
     }
-    
+
     //删除
     public function del(Request $request)
     {

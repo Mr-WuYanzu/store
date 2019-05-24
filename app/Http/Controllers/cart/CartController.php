@@ -97,7 +97,6 @@ class CartController extends Controller
     }
     //购物车列表
     public function cart_list(){
-
         $res=json_decode($this->cart_little(),true);
 
         //获取用户id
