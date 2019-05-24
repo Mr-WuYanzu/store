@@ -203,11 +203,7 @@
                         </a>
                     </div>
                     <div class="col s4">
-<<<<<<< HEAD
-                        <a href="login.html" class="button-link">
-=======
                         <a href="/login" class="button-link">
->>>>>>> user
                             <div class="menu-link">
                                 <div class="icon">
                                     <i class="fa fa-sign-in"></i>

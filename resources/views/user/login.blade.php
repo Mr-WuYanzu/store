@@ -13,13 +13,13 @@
 				<div class="row">
 					<form class="col s12">
 						<div class="input-field">
-							<input type="text" class="validate user_name" placeholder="USERNAME" required>
+							<input type="text" class="validate user_name" placeholder="请输入用户名" required>
 						</div>
 						<div class="input-field">
-							<input type="password" class="validate password" placeholder="PASSWORD" required>
+							<input type="password" class="validate password" placeholder="请输入密码" required>
 						</div>
-						<a href="/forget" class="forget"><h6>Forgot Password ?</h6></a>
-						<a class="btn button-default">LOGIN</a>
+						<a href="/forget" class="forget"><h6>忘记密码?</h6></a>
+						<a class="btn button-default">点击登录</a>
 					</form>
 				</div>
 			</div>
