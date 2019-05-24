@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -248,6 +249,18 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * 退出登录
+     */
+    public function logout(Request $request){
+        $request->session()->forget('user');
+        echo "<script>alert('退出成功');location.href='/login';</script>";
+    }
+
+    /**
+     * 关于我们
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function about_us(){
         return view('user/about_us');
     }
