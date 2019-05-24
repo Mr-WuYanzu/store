@@ -8,7 +8,6 @@ use DemeterChain\C;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-
 class CollectController extends Controller
 {
     //加入收藏夹
