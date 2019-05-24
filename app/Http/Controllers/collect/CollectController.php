@@ -69,9 +69,16 @@ class CollectController extends Controller
     }
 
     //判断是否收藏
-    public function iscollect()
+    public function iscollect(Request $request)
     {
-
+        $goods_id=$request->goods_id;
+        $user_id=session('user.user_id')??'';
+        $res=Collect::where(['user_id'=>$user_id,'goods_id'=>$goods_id,'is_del'=>1])->get()->toArray();
+        if(!empty($res)){
+            echo "ok";
+        }else{
+            echo "no";
+        }
     }
 
     //心愿列表

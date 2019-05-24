@@ -13,7 +13,7 @@
             <div class="price">${{$goods_info['goods_price']}}<span>${{$goods_info['goods_bzprice']}}</span></div>
             <p>{{$goods_info['goods_desc']}}</p>
             <button type="button" class="btn button-default" id="addcat" goods_id="{{$goods_info['goods_id']}}">加入购物车</button>
-            <button type="button" class="btn button-default"><i class="fa fa-heart">收藏商品</i></button>
+            <button type="button" class="btn button-default"><i class="fa fa-heart" id="iscollect">收藏商品</i></button>
         </div>
         <div class="review">
             <h5>1 reviews</h5>
@@ -87,6 +87,17 @@
 <script src="/js/jquery.min.js"></script>
 <script>
     $(function () {
+        //判断是否收藏
+        var goods_id=$("#addcat").attr('goods_id');
+        $.get(
+                '/collect/iscollect',
+                {goods_id:goods_id},
+                function(res){
+                    if(res=="ok"){
+                        $("#iscollect").text('已收藏');
+                    }
+                }
+        )
         //点击收藏
         $('.fa').click(function () {
             var goods_id=$(this).parents('div').attr('goods_id');
