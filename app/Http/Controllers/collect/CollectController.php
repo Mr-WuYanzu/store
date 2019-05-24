@@ -4,7 +4,7 @@ namespace App\Http\Controllers\collect;
 
 use App\Model\Collect;
 use App\Model\Goods;
-use DemeterChain\C;
+use App\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,51 +13,88 @@ class CollectController extends Controller
     //加入收藏夹
     public function add($goods_id)
     {
-        $user_id=1;
+        //获取用户id
+        $user_id=session('user.user_id')??'';
+        if($user_id==''){
+            $response=[
+                'errno'=>50006,
+                'msg'=>'请登录'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+//        验证此用户是否存在
+        $user_info=UserModel::where('user_id',$user_id)->first();
+        if(!$user_info){
+            $response=[
+                'errno'=>'50006',
+                'msg'=>'没有此用户'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
         $collectInfo=[
             'goods_id'=>$goods_id,
             'user_id'=>$user_id,
         ];
         //根据用户id 商品ID查询是否已收藏
-        $is_collect=Collect::where($collectInfo)->count();
+        $is_collect=Collect::where($collectInfo)->first();
 //        dd($is_collect);
-        if ($is_collect==0){
-            $goodsInfo=Goods::where(['goods_id'=>$goods_id])->first();
-            $info=[
-                'user_id'=>$user_id,
-                'goods_id'=>$goods_id,
-                'goods_name'=>$goodsInfo['goods_name'],
-                'goods_price'=>$goodsInfo['goods_price'],
-                'goods_num'=>$goodsInfo['goods_num'],
-                'goods_img'=>$goodsInfo['goods_img']
+        if ($is_collect){
+            Collect::where(['goods_id'=>$goods_id,'user_id'=>$user_id])->update(['is_del'=>2]);
+            $arr=[
+                'errno'=>2,
             ];
-            $res=Collect::insert($info);
-            if ($res){
-                $arr=[
-                    'errno'=>0,
-                    'msg'=>'收藏成功'
-                ];
-                return json_encode($arr,JSON_UNESCAPED_UNICODE);
-            }else{
-                $arr=[
-                    'errno'=>50050,
-                    'msg'=>'收藏失败'
-                ];
-                return json_encode($arr,JSON_UNESCAPED_UNICODE);
-            }
+            return $arr;
+        }
+        $goodsInfo=Goods::where(['goods_id'=>$goods_id])->first();
+        $info=[
+            'user_id'=>$user_id,
+            'goods_id'=>$goods_id,
+            'goods_name'=>$goodsInfo['goods_name'],
+            'goods_price'=>$goodsInfo['goods_price'],
+            'goods_num'=>$goodsInfo['goods_num'],
+            'goods_img'=>$goodsInfo['goods_img']
+        ];
+        $res=Collect::insert($info);
+        if ($res){
+            $arr=[
+                'errno'=>0,
+            ];
+            return $arr;
         }else{
             $arr=[
-                'errno'=>50033,
-                'msg'=>'已经在收藏夹里了'
+                'errno'=>1,
             ];
-            return json_encode($arr,JSON_UNESCAPED_UNICODE);
+            return $arr;
         }
+    }
+
+    //判断是否收藏
+    public function iscollect()
+    {
+
     }
 
     //心愿列表
     public function wishlist()
     {
-        $user_id=1;
+        //获取用户id
+        $user_id=session('user.user_id')??'';
+        if($user_id==''){
+            $response=[
+                'errno'=>50006,
+                'msg'=>'请登录'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+//        验证此用户是否存在
+        $user_info=UserModel::where('user_id',$user_id)->first();
+        if(!$user_info){
+            $response=[
+                'errno'=>'50006',
+                'msg'=>'没有此用户'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
         $collectInfo=Collect::where(['user_id'=>$user_id,'is_del'=>1])->get();
 //        dd($collectInfo);
         return view('collect.wishlist',compact('collectInfo'));
@@ -66,8 +103,26 @@ class CollectController extends Controller
     //删除
     public function del(Request $request)
     {
+        //获取用户id
+        $user_id=session('user.user_id')??'';
+        if($user_id==''){
+            $response=[
+                'errno'=>50006,
+                'msg'=>'请登录'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+//        验证此用户是否存在
+        $user_info=UserModel::where('user_id',$user_id)->first();
+        if(!$user_info){
+            $response=[
+                'errno'=>'50006',
+                'msg'=>'没有此用户'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
         $c_id=$request->input('c_id');
-        $res=Collect::where(['c_id'=>$c_id])->update(['is_del'=>2]);
+        $res=Collect::where(['c_id'=>$c_id,'user_id'=>$user_id])->update(['is_del'=>2]);
         if ($res){
             $arr=[
                 'errno'=>0,
