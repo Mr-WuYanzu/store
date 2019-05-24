@@ -11,7 +11,6 @@ class PayController extends Controller
 {
 
 
-    //去支付
     public $app_id;
     public $gate_way;
     public $notify_url;
@@ -97,13 +96,7 @@ class PayController extends Controller
         }
         $url = rtrim($param_str,'&');
         $url = $this->gate_way . $url;
-//        dd($url);
-//        $response=[
-//            'errno'=>'0',
-//            'url'=>$url
-//        ];
-        header("Location:$url");
-//        return json_encode($response,JSON_UNESCAPED_UNICODE);//返回 重定向到支付宝支付页面 的链接
+        header("Location:".$url);       // 重定向到支付宝支付页面
     }
     public function rsaSign($params) {
         return $this->sign($this->getSignContent($params));
@@ -111,7 +104,6 @@ class PayController extends Controller
     protected function sign($data) {
         $priKey = file_get_contents($this->rsaPrivateKeyFilePath);
         $res = openssl_get_privatekey($priKey);
-//        dd($priKey);
         ($res) or die('您使用的私钥格式错误，请检查RSA私钥配置');
         openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
         if(!$this->checkEmpty($this->rsaPrivateKeyFilePath)){
@@ -166,14 +158,12 @@ class PayController extends Controller
     /**
      * 支付宝异步通知
      */
-    public function notify()
-    {
 
+    public function notifypay()
+    {
         $p = json_encode($_POST);
         $log_str = "\n>>>>>> " .date('Y-m-d H:i:s') . ' '.$p . " \n";
-        file_put_contents('logs/alipay_notify.log',$log_str,FILE_APPEND);
-
-
+        file_put_contents('logs/alipay_notify',$log_str,FILE_APPEND);
         echo 'success';
         //TODO 验签 更新订单状态
     }
@@ -187,3 +177,4 @@ class PayController extends Controller
 //        echo '您的订单号为:'.;
     }
 }
+

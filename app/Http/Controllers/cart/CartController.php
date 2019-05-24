@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 class CartController extends Controller
 {
     //加入购物车
-    public function cart_add($goods_id=5,Request $request){
+    public function cart_add($goods_id,Request $request){
 //        session(['user'=>['user_email'=>'ssss','user_id'=>1]]);
         //获取用户id
         $user_id=session('user.user_id')??'';
