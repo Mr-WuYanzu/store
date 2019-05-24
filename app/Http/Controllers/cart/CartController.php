@@ -17,6 +17,7 @@ class CartController extends Controller
         $user_id=session('user.user_id')??'';
         if($user_id==''){
             $response=[
+                'errno'=>1,
                 'msg'=>'请登录'
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
@@ -25,6 +26,7 @@ class CartController extends Controller
         $user_info=User::where('user_id',$user_id)->first();
         if(!$user_info){
             $response=[
+                'errno'=>'1',
                 'msg'=>'没有此用户'
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
@@ -95,6 +97,7 @@ class CartController extends Controller
     }
     //购物车列表
     public function cart_list(){
+        session(['user'=>['user_email'=>'ssss','user_id'=>1]]);
         //获取用户id
         $user_id=session('user.user_id')??'';
         if($user_id==''){
@@ -111,7 +114,64 @@ class CartController extends Controller
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
-        $cart_info=Cart::where('user_id',$user_id)->get();
+        $cart_info=Cart::join('shop_goods','shop_cart.goods_id','=','shop_goods.goods_id')
+            ->where('user_id',$user_id)
+            ->get();
         return view('cart.cart_list',['cart_info'=>$cart_info]);
     }
+    //删除购物车
+    public function cart_del(Request $request){
+        $id=intval($request->input('id'));
+        //获取用户id
+        $user_id=session('user.user_id')??'';
+        if($user_id==''){
+            $response=[
+                'errno'=>'1',
+                'msg'=>'请登录'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+//        验证此用户是否存在
+        $user_info=User::where('user_id',$user_id)->first();
+        if(!$user_info){
+            $response=[
+                'errno'=>'1',
+                'msg'=>'没有此用户'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+        if(empty($id)){
+            $response=[
+                'errno'=>'1',
+                'msg'=>'请选择订单删除'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+        $res=Cart::where(['user_id'=>$user_id,'id'=>$id])->get();
+        if($res){
+            $rs=Cart::where('id',$id)->delete();
+            if($rs){
+                $response=[
+                    'errno'=>'0',
+                    'msg'=>'删除成功'
+                ];
+                die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            }else{
+                $response=[
+                    'errno'=>'1',
+                    'msg'=>'删除失败'
+                ];
+                die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            }
+
+        }else{
+            $response=[
+                'errno'=>'1',
+                'msg'=>'查询您没有此订单'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+
+    }
+
 }
