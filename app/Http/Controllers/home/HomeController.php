@@ -16,5 +16,7 @@ class HomeController extends Controller
             'goods_best_info'=>$goods_best_info
         ];
         return view('home.index',$data);
+        $res=json_decode($this->cart_little(),true);
+        return view('home.index',['res'=>$res]);
     }
 }

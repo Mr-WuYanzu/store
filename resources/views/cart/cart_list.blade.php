@@ -189,6 +189,23 @@
 			}
 			location.href="/order/create?c_id="+c_id;
 		})
+		//点击删除
+		$("i[class='fa fa-trash']").click(function(){
+			var c_id=$(this).parents('div[class="cart-1"]').attr('c_id');
+			$.ajax({
+				url:"/cart/del?c_id="+c_id,
+				dataType:'json',
+				success:function(res) {
+					if (res.errno == 0) {
+						alert('删除成功');
+						location.reload();
+					} else {
+						alert('删除失败');
+					}
+				}
+
+			})
+		})
 
 	</script>
 @endsection

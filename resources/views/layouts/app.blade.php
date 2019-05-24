@@ -234,32 +234,42 @@
             <i class="fa fa-close"></i>
         </div>
         <div class="modal-content">
+            @if($res['errno']==0)
             <div class="cart-menu">
                 <div class="container">
                     <div class="content">
+                        @foreach($res['data'] as $k=>$v)
                         <div class="cart-1">
                             <div class="row">
                                 <div class="col s5">
-                                    <img src="img/cart-menu1.png" alt="">
+                                    <img src="/img/{{$v['goods_img']}}" alt="">
                                 </div>
                                 <div class="col s7">
-                                    <h5><a href="">Fashion Men's</a></h5>
+                                    <h5><a href="/goodsdetail/{{$v['goods_id']}}">{{$v['goods_name']}}</a></h5>
                                 </div>
                             </div>
                             <div class="row quantity">
                                 <div class="col s5">
-                                    <h5>Quantity</h5>
+                                    <h5>购买数量</h5>
                                 </div>
                                 <div class="col s7">
-                                    <input value="1" type="text">
+                                    <input value="{{$v['buy_num']}}" type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s5">
-                                    <h5>Price</h5>
+                                    <h5>单价</h5>
                                 </div>
                                 <div class="col s7">
-                                    <h5>$20</h5>
+                                    <h5>${{$v['goods_price']}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s5">
+                                    <h5>总价</h5>
+                                </div>
+                                <div class="col s7">
+                                    <h5>${{$v['goods_price']*$v['buy_num']}}</h5>
                                 </div>
                             </div>
                             <div class="row">
@@ -271,71 +281,21 @@
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                         <div class="divider"></div>
                         <div class="cart-2">
-                            <div class="row">
-                                <div class="col s5">
-                                    <img src="img/cart-menu2.png" alt="">
-                                </div>
-                                <div class="col s7">
-                                    <h5><a href="">Fashion Men's</a></h5>
-                                </div>
-                            </div>
-                            <div class="row quantity">
-                                <div class="col s5">
-                                    <h5>Quantity</h5>
-                                </div>
-                                <div class="col s7">
-                                    <input value="1" type="text">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s5">
-                                    <h5>Price</h5>
-                                </div>
-                                <div class="col s7">
-                                    <h5>$20</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s5">
-                                    <h5>Action</h5>
-                                </div>
-                                <div class="col s7">
-                                    <div class="action"><i class="fa fa-trash"></i></div>
-                                </div>
-                            </div>
+
+
+
                         </div>
                     </div>
-                    <div class="total">
-                        <div class="row">
-                            <div class="col s7">
-                                <h5>Fashion Men's</h5>
-                            </div>
-                            <div class="col s5">
-                                <h5>$21.00</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s7">
-                                <h5>Fashion Men's</h5>
-                            </div>
-                            <div class="col s5">
-                                <h5>$21.00</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s7">
-                                <h6>Total</h6>
-                            </div>
-                            <div class="col s5">
-                                <h6>$41.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn button-default">Process to Checkout</button>
+
+                    <a href="" class="btn button-default">前往购物车</a>
                 </div>
             </div>
+            @else
+                没有数据
+            @endif
         </div>
     </div>
     <!-- end cart menu -->
