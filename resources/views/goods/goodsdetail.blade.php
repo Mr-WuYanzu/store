@@ -113,6 +113,9 @@
                     }else if(res.errno==2){
                         alert('取消收藏成功');
                         $("#iscollect").css({color:"gray"}).text('收藏');
+                    }else{
+                        alert('请登录');
+                        location.href='/login';
                     }
                 }
             })
