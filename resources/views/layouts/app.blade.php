@@ -20,8 +20,11 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/img/favicon.png">
 
+<<<<<<< HEAD
     <script src="/js/jquery-3.2.1.min.js"></script>
 
+=======
+>>>>>>> cart
 </head>
 <body>
 
@@ -45,6 +48,7 @@
             <li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
             <li><a href="about-us.html"><i class="fa fa-user"></i>About Us</a></li>
             <li><a href="contact.html"><i class="fa fa-envelope-o"></i>Contact Us</a></li>
+<<<<<<< HEAD
             
             <li><a href="/login"><i class="fa fa-sign-in"></i>Login</a></li>
             <li><a href="/register"><i class="fa fa-user-plus"></i>Register</a></li>
@@ -52,6 +56,12 @@
         </ul>
     </div>
 
+=======
+            <li><a href="login.html"><i class="fa fa-sign-in"></i>Login</a></li>
+            <li><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>
+        </ul>
+    </div>
+>>>>>>> cart
     {{--内容主体--}}
     @yield('content')
 
@@ -385,7 +395,11 @@
     </div>
     <!-- end navbar bottom -->
 
+<<<<<<< HEAD
 <script src="/js/jquery-3.2.1.min.js"></script>
+=======
+
+>>>>>>> cart
 <script src="/js/jquery.min.js"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
