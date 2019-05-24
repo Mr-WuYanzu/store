@@ -1,10 +1,16 @@
 <?php
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\pay;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Order;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use App\model\Order;
+use App\model\User;
 class PayController extends Controller
 {
+
+
     public $app_id;
     public $gate_way;
     public $notify_url;
@@ -13,10 +19,10 @@ class PayController extends Controller
     public $aliPubKey;
     public function __construct()
     {
-        $this->app_id = '2016092500595438';
+        $this->app_id = env('ALIPAY_APPID');
         $this->gate_way = 'https://openapi.alipaydev.com/gateway.do';
-        $this->notify_url = 'http://api.litongxiao.com/notifypay';
-        $this->return_url = 'http://api.litongxiao.com/paystatus';
+        $this->notify_url = env('ALIPAY_NOTIFY_URL');
+        $this->return_url = env('ALIPAY_RETURN_URL');
         $this->rsaPrivateKeyFilePath = storage_path('app/keys/alipay/priv.key');    //应用私钥
         $this->aliPubKey = storage_path('app/keys/alipay/ali_pub.key'); //支付宝公钥
     }
@@ -29,24 +35,43 @@ class PayController extends Controller
      * 订单支付
      * @param $oid
      */
-    public function pay($oid)
+    public function pay(Request $request)
     {
-        //验证订单状态 是否已支付 是否是有效订单
-        $order_info = Order::where(['order_id'=>$oid])->first()->toArray();
-        echo '<pre>';print_r($order_info);echo '</pre>';echo '<hr>';
-        //判断订单是否已被支付
-        if($order_info['pay_status']!=0){
-            die("订单已支付，请勿重复支付");
+        //获取用户id
+        $user_id=session('user.user_id')??'';
+        if($user_id==''){
+            $response=[
+                'errno'=>1,
+                'msg'=>'请登录'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
-//        //判断订单是否已被删除
-//        if($order_info['is_delete']==1){
-//            die("订单已被删除，无法支付");
-//        }
+//        验证此用户是否存在
+        $user_info=User::where('user_id',$user_id)->first();
+        if(!$user_info){
+            $response=[
+                'errno'=>'1',
+                'msg'=>'没有此用户'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
+
+
+
+        $oid=$request->input('oid');
+        //验证订单状态 是否已支付 是否是有效订单
+        $order_info = Order::where(['order_id'=>$oid,'status'=>0,'pay_status'=>1,'user_id'=>$user_id])->first();
+        if(!$order_info){
+            $response=[
+                'errno'=>50055,
+                'msg'=>'订单已支付或删除'
+            ];
+        }
         //业务参数
         $bizcont = [
             'subject'           => 'Lening-Order: ' .$oid,
-            'out_trade_no'      => $oid,
-            'total_amount'      => $order_info['count_price'] / 100,
+            'out_trade_no'      => $order_info->order_no,
+            'total_amount'      => $order_info->order_amount / 100,
             'product_code'      => 'QUICK_WAP_WAY',
         ];
         //公共参数
@@ -133,6 +158,7 @@ class PayController extends Controller
     /**
      * 支付宝异步通知
      */
+
     public function notifypay()
     {
         $p = json_encode($_POST);
@@ -144,8 +170,11 @@ class PayController extends Controller
     /**
      * 支付宝同步通知
      */
-    public function paystatus()
+    public function aliReturn()
     {
-        echo '<pre>';print_r($_GET);echo '</pre>';
+        $data=$_GET;
+        echo '<pre>';print_r($data);echo '</pre>';
+//        echo '您的订单号为:'.;
     }
 }
+

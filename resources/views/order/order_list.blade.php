@@ -67,7 +67,7 @@
                             <div class="collapsible-header"><h5>3 - 订单确认</h5></div>
                             <div class="collapsible-body">
                                 @foreach($cart_info as $k=>$v)
-                                <div class="order-review" cart_id="{{$v->id}}">
+                                <div class="order-review ll" cart_id="{{$v->id}}">
                                     <div class="row">
                                         <div class="col s12">
                                             <div class="cart-details">
@@ -179,12 +179,47 @@ $('#check').click(function () {
     if($('#cash-on-delivery').prop('checked')==true){
         pay_way=1;
     }else if($('#online-payments').prop('checked')==true){
-        pay_wat=2;
+        pay_way=2;
     }
     if(pay_way==0){
         alert('请选择支付方式');
         return false;
     }
+    var address_name=$('#address_name').val();
+    var email=$('#email').val();
+    var address_detail=$('#address_detail').val();
+    var city=$('#city').val();
+    var tel=$('#tel').val();
+    if(address_name=='' || email=='' || address_detail=='' || city=='' || tel==''){
+        alert('收货信息不可缺失');
+        return false;
+    }
+    var cart_id=$("div[class='order-review ll'");
+    console.log(cart_id);
+    var c_id='';
+    cart_id.each(function(index){
+        console.log($(this).attr('cart_id'));
+        c_id += $(this).attr('cart_id')+',';
+    })
+    c_id=c_id.substr(0,c_id.length-1);
+    $.ajax({
+        url:'/order/checkout',
+        type:'post',
+        data:{c_id:c_id,address_name:address_name,email:email,address_detail:address_detail,city:city,tel:tel,pay_way:pay_way},
+        dataType:'json',
+        success:function(index){
+            if(index.errno==0){
+                var r=confirm('生成订单成功，是否立即支付');
+                if(r==true){
+                    location.href="/pay/alipay?oid="+index.order_id;
+                }else{
+                    location.href='/order/order_list';
+                }
+            }else if(index.errno==1){
+                alert(index.msg);
+            }
+        }
+    })
 })
 </script>
 @endsection
