@@ -247,4 +247,8 @@ class UserController extends Controller
 
         }
     }
+
+    public function about_us(){
+        return view('user/about_us');
+    }
 }

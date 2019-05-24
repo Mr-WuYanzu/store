@@ -2,20 +2,18 @@
 
 @section('title', '商品详情')
 
-
-
 @section('content')
-
 
 <!-- shop single -->
 <div class="pages section">
     <div class="container">
-        <div class="shop-single">
+        <div class="shop-single" goods_id="{{$goods_info['goods_id']}}">
             <img src="/img/{{$goods_info['goods_img']}}" alt="">
             <h5>{{$goods_info['goods_name']}}</h5>
             <div class="price">${{$goods_info['goods_price']}}<span>${{$goods_info['goods_bzprice']}}</span></div>
             <p>{{$goods_info['goods_desc']}}</p>
             <button type="button" class="btn button-default" id="addcat" goods_id="{{$goods_info['goods_id']}}">加入购物车</button>
+            <button type="button" class="btn button-default"><i class="fa fa-heart">收藏商品</i></button>
         </div>
         <div class="review">
             <h5>1 reviews</h5>
@@ -65,6 +63,7 @@
 <!-- loader -->
 <div id="fakeLoader"></div>
 <!-- end loader -->
+@endsection
 <script>
     $(function(){
         $("#addcat").click(function(){
@@ -84,4 +83,28 @@
         })
     })
 </script>
-@endsection
+
+<script src="/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        //点击收藏
+        $('.fa').click(function () {
+            var goods_id=$(this).parents('div').attr('goods_id');
+            var _this=$(this);
+            $.ajax({
+                url:'/collect/add/'+goods_id,
+                dataType:'json',
+                success:function (res) {
+                    if(res.errno==0){
+                        alert('收藏成功');
+                    }else if (res.errno==1){
+                        alert('收藏失败');
+                    }else {
+                        alert('已经收藏过了呀');
+                    }
+                }
+            })
+        })
+
+    })
+</script>
