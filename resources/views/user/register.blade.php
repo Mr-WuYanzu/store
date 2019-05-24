@@ -12,13 +12,13 @@
             <div class="row">
                 <form class="col s12">
                     <div class="input-field">
-                        <input type="text" class="validate user_name" placeholder="用户名" required>
+                        <input type="text" class="validate user_name" placeholder="请输入用户名" required>
                     </div>
                     <div class="input-field">
-                        <input type="email" placeholder="邮箱" class="validate email" required>
+                        <input type="email" placeholder="请输入邮箱" class="validate email" required>
                     </div>
                     <div class="input-field">
-                        <input type="password" placeholder="密码" class="validate password" required>
+                        <input type="password" placeholder="请输入密码" class="validate password" required>
                     </div>
                     <div class="btn button-default" id="btn">点击注册</div>
                 </form>

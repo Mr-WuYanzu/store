@@ -13,7 +13,7 @@
 				<div class="row">
 					<form class="col s12">
 						<div class="input-field">
-							<input type="text" class="validate user_name" placeholder="USERNAME" required>
+							<input type="text" class="validate user_name" placeholder="请输入您的用户名" required>
 						</div>
 						<div class="input-field">
 							<input type="text" class="validate password" placeholder="请输入新密码" required>
