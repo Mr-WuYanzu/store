@@ -10,6 +10,19 @@ use App\Http\Controllers\Controller;
 
 class CollectController extends Controller
 {
+    //判断是否收藏
+    public function iscollect(Request $request)
+    {
+        $goods_id=$request->goods_id;
+        $user_id=session('user.user_id')??'';
+        $res=Collect::where(['user_id'=>$user_id,'goods_id'=>$goods_id,'is_del'=>1])->get()->toArray();
+        if(!empty($res)){
+            echo "已收藏";
+        }else{
+            echo "收藏";
+        }
+    }
+
     //加入收藏夹
     public function add($goods_id)
     {
@@ -27,22 +40,26 @@ class CollectController extends Controller
         if(!$user_info){
             $response=[
                 'errno'=>'50006',
-                'msg'=>'没有此用户'
+                'msg'=>'用户不存在哦'
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $collectInfo=[
             'goods_id'=>$goods_id,
             'user_id'=>$user_id,
+            'is_del'=>1
         ];
         //根据用户id 商品ID查询是否已收藏
         $is_collect=Collect::where($collectInfo)->first();
 //        dd($is_collect);
         if ($is_collect){
-            $arr=[
-                'errno'=>2,
-            ];
-            return $arr;
+            $res=Collect::where($collectInfo)->update(['is_del'=>2]);
+            if ($res){
+                $arr=[
+                    'errno'=>2,
+                ];
+                return $arr;
+            }
         }
         $goodsInfo=Goods::where(['goods_id'=>$goods_id])->first();
         $info=[
@@ -64,19 +81,6 @@ class CollectController extends Controller
                 'errno'=>1,
             ];
             return $arr;
-        }
-    }
-
-    //判断是否收藏
-    public function iscollect(Request $request)
-    {
-        $goods_id=$request->goods_id;
-        $user_id=session('user.user_id')??'';
-        $res=Collect::where(['user_id'=>$user_id,'goods_id'=>$goods_id,'is_del'=>1])->get()->toArray();
-        if(!empty($res)){
-            echo "ok";
-        }else{
-            echo "no";
         }
     }
 
@@ -128,7 +132,7 @@ class CollectController extends Controller
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $c_id=$request->input('c_id');
-        $res=Collect::where(['c_id'=>$c_id,'user_id'=>$user_id])->update(['is_del'=>2]);
+        $res=Collect::where(['c_id'=>$c_id,'user_id'=>$user_id,'is_del'=>1])->update(['is_del'=>2]);
         if ($res){
             $arr=[
                 'errno'=>0,
