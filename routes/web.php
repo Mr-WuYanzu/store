@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/','home\HomeController@index');
-<<<<<<< HEAD
+
 //商品详情
 Route::get('/goodsdetail/{goods_id}','goods\GoodsController@detail');
 //分类
@@ -20,7 +20,7 @@ Route::get('/forget','User\UserController@forget');//忘记密码
 Route::post('/forget_do','User\UserController@forget_do');//执行找回密码
 Route::get('/new_password','User\UserController@new_password');//设置新密码视图
 Route::post('/set_new_password','User\UserController@set_new_password');//执行设置新密码
-=======
+
 //购物车列表
 Route::get('/cart/list','cart\CartController@cart_list');
 //删除购物车订单
@@ -35,4 +35,4 @@ Route::get('/order/checkout','order\OrderController@order');
 Route::get('/cart/add/{goods_id?}','cart\CartController@cart_add');
 
 
->>>>>>> cart
+
