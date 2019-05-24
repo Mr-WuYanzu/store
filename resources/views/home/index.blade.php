@@ -166,10 +166,10 @@
 			@foreach($goods_best_info as $k=>$v)
 				<div class="col s6">
 					<div class="content">
-						<img src="\img\{{$v['goods_img']}}" style="width: 350px;height: 500px">
-						<h6><a href="">{{$v['goods_name']}}</a></h6>
+						<img src="\img\{{$v->goods_img}}" style="width: 350px;height: 500px">
+						<h6><a href="/goodsdetail/{{$v->goods_id}}">{{$v->goods_name}}</a></h6>
 						<div class="price">
-							${{$v['goods_price']}} <span>${{$v['goods_bzprice']}}</span>
+							${{$v->goods_price}} <span>${{$v->goods_bzprice}}</span>
 						</div>
 						<button class="btn button-default">加入购物车</button>
 					</div>
@@ -177,13 +177,7 @@
 			@endforeach
 		</div>
 		<div class="pagination-product">
-			<ul>
-				<li class="active">1</li>
-				<li><a href="">2</a></li>
-				<li><a href="">3</a></li>
-				<li><a href="">4</a></li>
-				<li><a href="">5</a></li>
-			</ul>
+			{{ $goods_best_info->links() }}
 		</div>
 	</div>
 </div>
