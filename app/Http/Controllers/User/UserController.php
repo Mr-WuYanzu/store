@@ -85,8 +85,29 @@ class UserController extends Controller
         }
         //根据用户名查询数据库
         $nameInfo = UserModel::where(['user_name'=>$user_name])->first();
+        $error_num = $nameInfo->error_num;        //错误次数
+        $last_error_time=$nameInfo->last_error_time;  //最后一次错误的时间
+        $updateWhere=[
+            'user_id'=>$nameInfo->user_id
+        ];
+        $time = time();
         if($nameInfo){
             if(password_verify($password,$nameInfo->password)){
+                if($error_num>=3&&$time-$last_error_time<3600){
+                    $remain = 60-(ceil(($time-$last_error_time)/60));
+                    $response=[
+                        'errno'=>'2',
+                        'msg'=>"账号锁定中，请".$remain."分钟后重新登录"
+                    ];
+                    die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                }
+                //错误次数改为0，错误时间改为null
+                $updateInfo=[
+                    'error_num'=>0,
+                    'last_error_time'=>null
+                ];
+                UserModel::where($updateWhere)->update($updateInfo);
+
                 $token = $this->getLoginToken($nameInfo->user_id);
                 $key = 'login_token:user_id:'.$nameInfo->user_id;
                 Redis::set($key,$token);
@@ -98,11 +119,40 @@ class UserController extends Controller
                 ];
                 return json_encode($response,JSON_UNESCAPED_UNICODE);
             }else{
-                $response=[
-                    'errno'=>'2',
-                    'msg'=> '密码错误，请重新输入'
-                ];
-               die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                //判断当前时间是否大于最后一次错误的时间
+                if($time-$last_error_time>3600){
+                    $updateInfo=[
+                        'error_num'=>1,
+                        'last_error_time'=>$time
+                    ];
+                    UserModel::where($updateWhere)->update($updateInfo);
+                    $response=[
+                        'errno'=>2,
+                        'msg'=>"账号或密码有误，您还有2次机会可以登录"
+                    ];
+                    die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                }else{
+                    if($error_num>=3){
+                        $remain = 60-(ceil(($time-$last_error_time)/60));
+                        $response=[
+                            'errno'=>2,
+                            'msg'=>"账号已锁定，请".$remain."分钟后重新登录"
+                        ];
+                        die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                    }else{
+                        $updateInfo=[
+                            'error_num'=>$error_num+1,
+                            'last_error_time'=>$time
+                        ];
+                        UserModel::where($updateWhere)->update($updateInfo);
+                        $num=3-($error_num+1);
+                        $response=[
+                            'errno'=>2,
+                            'msg'=>"账号或密码有误，您还有".$num."次机会可以登录"
+                        ];
+                        die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                    }
+                }
             }
         }else{
             $response=[
@@ -196,5 +246,9 @@ class UserController extends Controller
             }
 
         }
+    }
+
+    public function about_us(){
+        return view('user/about_us');
     }
 }

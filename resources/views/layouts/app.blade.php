@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/img/favicon.png">
 
+
     <script src="/js/jquery-3.2.1.min.js"></script>
+
 
 </head>
 <body>
@@ -43,11 +45,9 @@
                 <h2>John Doe</h2>
             </li>
             <li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
-            <li><a href="about-us.html"><i class="fa fa-user"></i>About Us</a></li>
+            <li><a href="/about_us"><i class="fa fa-user"></i>About Us</a></li>
             <li><a href="contact.html"><i class="fa fa-envelope-o"></i>Contact Us</a></li>
-
-            <li><a href="login.html"><i class="fa fa-sign-in"></i>Login</a></li>
-            <li><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>
+            
             <li><a href="/login"><i class="fa fa-sign-in"></i>Login</a></li>
             <li><a href="/register"><i class="fa fa-user-plus"></i>Register</a></li>
 
@@ -82,7 +82,6 @@
                                     <i class="fa fa-bars"></i>
                                 </div>
                                 商品分类
-                                Product List
                             </div>
                         </a>
                     </div>
@@ -205,11 +204,7 @@
                         </a>
                     </div>
                     <div class="col s4">
-<<<<<<< HEAD
-                        <a href="login.html" class="button-link">
-=======
                         <a href="/login" class="button-link">
->>>>>>> user
                             <div class="menu-link">
                                 <div class="icon">
                                     <i class="fa fa-sign-in"></i>

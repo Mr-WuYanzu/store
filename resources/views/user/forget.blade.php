@@ -13,7 +13,7 @@
 				<div class="row">
 					<form class="col s12">
 						<div class="input-field">
-							<input type="text" class="validate user_name" placeholder="USERNAME" required>
+							<input type="text" class="validate user_name" placeholder="请输入用户名找回密码" required>
 						</div>
 						<a href="/login"><h6>返回登录页面</h6></a>
 						<a class="btn button-default">点击找回</a>
