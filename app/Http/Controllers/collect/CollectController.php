@@ -33,16 +33,16 @@ class CollectController extends Controller
                 'errno'=>50006,
                 'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
 //        验证此用户是否存在
         $user_info=UserModel::where('user_id',$user_id)->first();
         if(!$user_info){
             $response=[
-                'errno'=>'50006',
-                'msg'=>'用户不存在哦'
+                'errno'=>50006,
+                'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
         $collectInfo=[
             'goods_id'=>$goods_id,
@@ -94,16 +94,19 @@ class CollectController extends Controller
                 'errno'=>50006,
                 'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            echo "<script>alert('请登录...');location.href='/login';</script>";
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
 //        验证此用户是否存在
         $user_info=UserModel::where('user_id',$user_id)->first();
         if(!$user_info){
             $response=[
-                'errno'=>'50006',
-                'msg'=>'没有此用户'
+                'errno'=>50006,
+                'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            echo "<script>alert('用户不存在，请重新登录');location.href='/login';</script>";
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
+
         }
         $collectInfo=Collect::where(['user_id'=>$user_id,'is_del'=>1])->get();
 //        dd($collectInfo);
@@ -121,16 +124,18 @@ class CollectController extends Controller
                 'errno'=>50006,
                 'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            echo "<script>alert('请登录');location.href='/login';</script>";
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
 //        验证此用户是否存在
         $user_info=UserModel::where('user_id',$user_id)->first();
         if(!$user_info){
             $response=[
-                'errno'=>'50006',
-                'msg'=>'没有此用户'
+                'errno'=>50006,
+                'msg'=>'请登录'
             ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            echo "<script>alert('用户不存在，请重新登录');location.href='/login';</script>";
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
         $c_id=$request->input('c_id');
         $res=Collect::where(['c_id'=>$c_id,'user_id'=>$user_id,'is_del'=>1])->update(['is_del'=>2]);
