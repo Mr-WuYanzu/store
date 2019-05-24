@@ -97,7 +97,7 @@ class CartController extends Controller
     }
     //购物车列表
     public function cart_list(){
-        session(['user'=>['user_email'=>'ssss','user_id'=>1]]);
+        $res=json_decode($this->cart_little(),true);
         //获取用户id
         $user_id=session('user.user_id')??'';
         if($user_id==''){
@@ -117,11 +117,11 @@ class CartController extends Controller
         $cart_info=Cart::join('shop_goods','shop_cart.goods_id','=','shop_goods.goods_id')
             ->where('user_id',$user_id)
             ->get();
-        return view('cart.cart_list',['cart_info'=>$cart_info]);
+        return view('cart.cart_list',['cart_info'=>$cart_info,'res'=>$res]);
     }
     //删除购物车
     public function cart_del(Request $request){
-        $id=intval($request->input('id'));
+        $id=intval($request->input('c_id'));
         //获取用户id
         $user_id=session('user.user_id')??'';
         if($user_id==''){

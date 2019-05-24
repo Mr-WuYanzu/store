@@ -9,6 +9,7 @@ class HomeController extends Controller
 {
     //
     public function index(){
-        return view('home.index');
+        $res=json_decode($this->cart_little(),true);
+        return view('home.index',['res'=>$res]);
     }
 }
