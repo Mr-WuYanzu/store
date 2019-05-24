@@ -97,7 +97,6 @@ class CartController extends Controller
     }
     //购物车列表
     public function cart_list(){
-        session(['user'=>['user_email'=>'ssss','user_id'=>1]]);
         //获取用户id
         $user_id=session('user.user_id')??'';
         if($user_id==''){
