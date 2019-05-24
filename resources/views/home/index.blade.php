@@ -133,7 +133,7 @@
 					<div class="price">
 						${{$v['goods_price']}} <span>${{$v['goods_bzprice']}}</span>
 					</div>
-					<button class="btn button-default">加入购物车</button>
+					<button class="btn button-default addcat" goods_id="{{$v['goods_id']}}">加入购物车</button>
 				</div>
 			</div>
 			@endforeach
@@ -191,4 +191,25 @@
 
 <!-- loader -->
 <div id="fakeLoader"></div>
+<script>
+	$(function(){
+		$(".addcat").each(function(){
+			$(this).click(function(){
+				var goods_id=$(this).attr('goods_id');
+				$.get(
+						'/cart/add/'+goods_id,
+						function(res){
+							if(res.errno==0){
+								alert(res.msg);
+								location.href="/cart/list";
+							}else{
+								alert(res.msg);
+							}
+						},
+						'json'
+				)
+			})
+		})
+	})
+</script>
 @endsection
