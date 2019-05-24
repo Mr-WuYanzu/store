@@ -77,7 +77,6 @@
                     </div>
                     <div class="col s4">
                         <a href="/brand" class="button-link">
-                        <a href="product-list.html" class="button-link">
                             <div class="menu-link">
                                 <div class="icon">
                                     <i class="fa fa-bars"></i>

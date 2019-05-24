@@ -17,7 +17,9 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function register(){
-        return view('user/register');
+        $res=json_decode($this->cart_little(),true);
+
+        return view('user/register',['res'=>$res]);
     }
 
     /**
@@ -66,7 +68,9 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function login(){
-        return view('/user/login');
+        $res=json_decode($this->cart_little(),true);
+
+        return view('/user/login',['res'=>$res]);
     }
 
     /**
@@ -179,7 +183,8 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function forget(){
-      return view('user/forget');
+        $res=json_decode($this->cart_little(),true);
+      return view('user/forget',['res'=>$res]);
     }
 
     /**
@@ -211,7 +216,8 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function new_password(){
-        return view('user/new_password');
+        $res=json_decode($this->cart_little(),true);
+        return view('user/new_password',['res'=>$res]);
     }
 
     /**
@@ -262,6 +268,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function about_us(){
-        return view('user/about_us');
+        $res=json_decode($this->cart_little(),true);
+        return view('user/about_us',['res'=>$res]);
     }
 }
