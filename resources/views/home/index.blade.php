@@ -22,10 +22,8 @@
 </div>
 <!-- end side nav right-->
 
+<!-- end side nav right-->
 
-<!-- menu -->
-
-<!-- end menu -->
 
 
 <!-- slider -->

@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/img/favicon.png">
 
+
     <script src="/js/jquery-3.2.1.min.js"></script>
+
 
 </head>
 <body>
