@@ -39,7 +39,6 @@ class CollectController extends Controller
         $is_collect=Collect::where($collectInfo)->first();
 //        dd($is_collect);
         if ($is_collect){
-            Collect::where(['goods_id'=>$goods_id,'user_id'=>$user_id])->update(['is_del'=>2]);
             $arr=[
                 'errno'=>2,
             ];

@@ -32,7 +32,11 @@ Route::get('/cart/del','cart\CartController@cart_del');
 //生成订单页面
 Route::get('/order/create','order\OrderController@order_view');
 //生成订单
-Route::get('/order/checkout','order\OrderController@order');
+Route::post('/order/checkout','order\OrderController@order');
+//订单列表
+Route::get('/order/order_list','order\OrderController@order_list');
+//订单支付
+Route::get('/pay/alipay','pay\PayController@pay');
 
 
 //加入购物车
