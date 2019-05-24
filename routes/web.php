@@ -19,3 +19,6 @@ Route::get('/forget','User\UserController@forget');//忘记密码
 Route::post('/forget_do','User\UserController@forget_do');//执行找回密码
 Route::get('/new_password','User\UserController@new_password');//设置新密码视图
 Route::post('/set_new_password','User\UserController@set_new_password');//执行设置新密码
+
+//支付
+Route::get('/pay/{oid}','pay\PayController@pay');
