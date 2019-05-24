@@ -12,7 +12,7 @@
             <h5>{{$goods_info['goods_name']}}</h5>
             <div class="price">${{$goods_info['goods_price']}}<span>${{$goods_info['goods_bzprice']}}</span></div>
             <p>{{$goods_info['goods_desc']}}</p>
-            <button type="button" class="btn button-default">加入购物车</button>
+            <button type="button" class="btn button-default" id="addcat" goods_id="{{$goods_info['goods_id']}}">加入购物车</button>
             <button type="button" class="btn button-default"><i class="fa fa-heart">收藏商品</i></button>
         </div>
         <div class="review">
@@ -64,6 +64,25 @@
 <div id="fakeLoader"></div>
 <!-- end loader -->
 @endsection
+<script>
+    $(function(){
+        $("#addcat").click(function(){
+            var goods_id=$(this).attr('goods_id');
+            $.get(
+                    '/cart/add/'+goods_id,
+                    function(res){
+                        if(res.errno==0){
+                            alert(res.msg);
+                            location.href="/cart/list";
+                        }else{
+                            alert(res.msg);
+                        }
+                    },
+                    'json'
+            )
+        })
+    })
+</script>
 
 <script src="/js/jquery.min.js"></script>
 <script>
