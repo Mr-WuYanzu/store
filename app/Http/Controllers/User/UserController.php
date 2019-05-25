@@ -31,6 +31,13 @@ class UserController extends Controller
         $email = $_POST['email'];
         $pwd = $_POST['password'];
         //验证
+        if(empty($user_name) || empty($email) || empty($pwd)){
+            $response=[
+                'errno'=>'2',
+                'msg'=>'请填写完整的注册信息'
+            ];
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        }
         $nameInfo = UserModel::where(['user_name'=>$user_name])->first();
         if($nameInfo){
             $response=[
