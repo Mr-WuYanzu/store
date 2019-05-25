@@ -55,6 +55,8 @@
                         }else{              //点击取消 跳转到首页
                             location.href = "/";
                         }
+                    }else{
+                        alert(res.msg);
                     }
                 }
             })
