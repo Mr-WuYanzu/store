@@ -75,41 +75,113 @@ class PayController extends Controller
             die('该订单号不存在,三秒钟后会跳转至主页');
         }
         if($order_info->pay_way==2){
-//            支付宝支付
-            //业务参数
-            $bizcont = [
-                'subject'           => 'Lening-Order: ' .$oid,
-                'out_trade_no'      => $order_info->order_no,
-                'total_amount'      => $order_info->order_amout ,
-                'product_code'      => 'QUICK_WAP_WAY',
-            ];
-            //公共参数
-            $data = [
-                'app_id'   => $this->app_id,
-                'method'   => 'alipay.trade.wap.pay',
-                'format'   => 'JSON',
-                'charset'   => 'utf-8',
-                'sign_type'   => 'RSA2',
-                'timestamp'   => date('Y-m-d H:i:s'),
-                'version'   => '1.0',
-                'notify_url'   => $this->notify_url,        //异步通知地址
-                'return_url'   => $this->return_url,        // 同步通知地址
-                'biz_content'   => json_encode($bizcont),
-            ];
-            //签名
-            $sign = $this->rsaSign($data);
-            $data['sign'] = $sign;
-            $param_str = '?';
-            foreach($data as $k=>$v){
-                $param_str .= $k.'='.urlencode($v) . '&';
+
+            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android') ){
+                //            支付宝支付
+                //业务参数
+                $bizcont = [
+                    'subject'           => 'Lening-Order: ' .$oid,
+                    'out_trade_no'      => $order_info->order_no,
+                    'total_amount'      => $order_info->order_amout ,
+                    'product_code'      => 'QUICK_WAP_WAY',
+                ];
+                //公共参数
+                $data = [
+                    'app_id'   => $this->app_id,
+                    'method'   => 'alipay.trade.wap.pay',
+                    'format'   => 'JSON',
+                    'charset'   => 'utf-8',
+                    'sign_type'   => 'RSA2',
+                    'timestamp'   => date('Y-m-d H:i:s'),
+                    'version'   => '1.0',
+                    'notify_url'   => $this->notify_url,        //异步通知地址
+                    'return_url'   => $this->return_url,        // 同步通知地址
+                    'biz_content'   => json_encode($bizcont),
+                ];
+                //签名
+                $sign = $this->rsaSign($data);
+                $data['sign'] = $sign;
+                $param_str = '?';
+                foreach($data as $k=>$v){
+                    $param_str .= $k.'='.urlencode($v) . '&';
+                }
+                $url = rtrim($param_str,'&');
+                $url = $this->gate_way . $url;
+                header("Location:".$url);       // 重定向到支付宝支付页面
+            }else{
+                require_once app_path('/libs/alipay/pagepay/service/AlipayTradeService.php');
+                require_once app_path('/libs/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php');
+
+
+                //商户订单号，商户网站订单系统中唯一订单号，必填
+                $out_trade_no = $order_info->order_no;
+
+                //订单名称，必填
+                $subject = "1809a测试";
+
+                //付款金额，必填
+                $total_amount = trim($order_info->order_amout);
+
+                //商品描述，可空
+                $body = "";
+
+                //构造参数
+                $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
+                $payRequestBuilder->setBody($body);
+                $payRequestBuilder->setSubject($subject);
+                $payRequestBuilder->setTotalAmount($total_amount);
+                $payRequestBuilder->setOutTradeNo($out_trade_no);
+
+                $aop = new \AlipayTradeService(config('alipay'));
+
+                /**
+                 * pagePay 电脑网站支付请求
+                 * @param $builder 业务参数，使用buildmodel中的对象生成。
+                 * @param $return_url 同步跳转地址，公网可以访问
+                 * @param $notify_url 异步通知地址，公网可以访问
+                 * @return $response 支付宝返回的信息
+                 */
+                $response = $aop->pagePay($payRequestBuilder,config('alipay.return_url'),config('alipay.notify_url'));
+                //输出表单
+                var_dump($response);
             }
-            $url = rtrim($param_str,'&');
-            $url = $this->gate_way . $url;
-            header("Location:".$url);       // 重定向到支付宝支付页面
         }else if($order_info->pay_way==1){
-            //微信支付
-            $total_fee=1;
-            $order_id=$order_info->order_no;
+            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android')){
+                //微信支付
+                $total_fee=1;
+                $order_id=$order_info->order_no;
+                $arr=[
+                    'h5_info'=>[
+                        'tap'=>'Wap',
+                        'wap_url'=>'http://store.zhbcto.com',
+                        'wap_name'=>'测试订单支付'
+                    ]
+                ];
+                $info=[
+                    'appid'		=>	env('WEIXIN_APPID_0'),
+                    'mch_id'	=>	env('WEIXIN_MCH_ID'),
+                    'nonce_str'	=>	Str::random(16),
+                    'sign_type'	=>	'MD5',
+                    'body'		=>'测试订单号：'.$order_id,
+                    'out_trade_no'	=>	$order_id,
+                    'total_fee'	=>	$total_fee,
+                    'spbill_create_ip'	=>	$_SERVER['REMOTE_ADDR'],
+                    'notify_url'	=> 	$this->weixin_notify_url,
+                    'trade_type'	=> 'MWEB',
+                    'scene_info'=>json_encode($arr,JSON_UNESCAPED_UNICODE)
+                ];
+                $this->values=$info;
+                $this->SetSign();
+                // dd($this->values);
+                $xml=$this->toxml();
+                $res = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
+                $obj=simplexml_load_string($res);
+            }else{
+
+//                dd(json_encode($arr,JSON_UNESCAPED_UNICODE));
+                //微信支付
+                $total_fee=1;
+                $order_id=$order_info->order_no;
 
                 $info=[
                     'appid'		=>	env('WEIXIN_APPID_0'),
@@ -128,14 +200,16 @@ class PayController extends Controller
                 // dd($this->values);
                 $xml=$this->toxml();
                 $res = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
-                // dd($res);
                 $obj=simplexml_load_string($res);
-
                 $data=[
                     'code_url'=>$obj->code_url,
                     'oid'=>$order_info->order_id
                 ];
-            return view('weixin.test',$data);
+                return view('weixin.test',$data);
+
+
+            }
+
         }
     }
     public function rsaSign($params) {
@@ -215,7 +289,28 @@ class PayController extends Controller
         echo '<pre>';print_r($data);echo '</pre>';
 //        echo '您的订单号为:'.;
     }
+//判断用户电脑端还是手机端
+    function isMobile(){
+        $useragent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        $useragent_commentsblock=preg_match('|\(.*?\)|',$useragent,$matches)>0?$matches[0]:'';
+        function CheckSubstrs($substrs,$text){
+            foreach($substrs as $substr)
+                if(false!==strpos($text,$substr)){
+                    return true;
+                }
+            return false;
+        }
+        $mobile_os_list=array('Google Wireless Transcoder','Windows CE','WindowsCE','Symbian','Android','armv6l','armv5','Mobile','CentOS','mowser','AvantGo','Opera Mobi','J2ME/MIDP','Smartphone','Go.Web','Palm','iPAQ');
+        $mobile_token_list=array('Profile/MIDP','Configuration/CLDC-','160×160','176×220','240×240','240×320','320×240','UP.Browser','UP.Link','SymbianOS','PalmOS','PocketPC','SonyEricsson','Nokia','BlackBerry','Vodafone','BenQ','Novarra-Vision','Iris','NetFront','HTC_','Xda_','SAMSUNG-SGH','Wapaka','DoCoMo','iPhone','iPod');
 
+        $found_mobile = CheckSubstrs($mobile_os_list,$useragent_commentsblock) ||  CheckSubstrs($mobile_token_list,$useragent);
+
+        if ($found_mobile){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
 

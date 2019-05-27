@@ -52,7 +52,7 @@
                                     <form action="#" class="checkout-radio">
                                         <div class="input-field">
                                             <input type="radio" class="with-gap" id="cash-on-delivery" name="group1">
-                                            <label for="cash-on-delivery"><span>货到付款</span></label>
+                                            <label for="cash-on-delivery"><span>微信支付</span></label>
                                         </div>
                                         <div class="input-field">
                                             <input type="radio" class="with-gap" id="online-payments" name="group1">
