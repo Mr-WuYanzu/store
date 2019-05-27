@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\collect;
 
-use App\Model\Collect;
-use App\Model\Goods;
+use App\Collect;
+use App\Goods;
 use App\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -154,4 +154,5 @@ class CollectController extends Controller
             return json_encode($arr,JSON_UNESCAPED_UNICODE);
         }
     }
+
 }
