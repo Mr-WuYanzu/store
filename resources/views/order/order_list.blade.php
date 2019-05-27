@@ -195,10 +195,8 @@ $('#check').click(function () {
         return false;
     }
     var cart_id=$("div[class='order-review ll'");
-    console.log(cart_id);
     var c_id='';
     cart_id.each(function(index){
-        console.log($(this).attr('cart_id'));
         c_id += $(this).attr('cart_id')+',';
     })
     c_id=c_id.substr(0,c_id.length-1);
