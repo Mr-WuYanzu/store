@@ -75,7 +75,7 @@ class PayController extends Controller
             die('该订单号不存在,三秒钟后会跳转至主页');
         }
         if($order_info->pay_way==2){
-            if(isset($_SERVER['HTTP_X_WAP_PROFILE'])){
+            if($this->isMobile()){
                 //            支付宝支付
                 //业务参数
                 $bizcont = [
@@ -146,7 +146,7 @@ class PayController extends Controller
                 var_dump($response);
             }
         }else if($order_info->pay_way==1){
-            if(isset($_SERVER['HTTP_X_WAP_PROFILE'])){
+            if($this->isMobile()){
                 //微信支付
                 $total_fee=1;
                 $order_id=$order_info->order_no;
@@ -289,7 +289,28 @@ class PayController extends Controller
         echo '<pre>';print_r($data);echo '</pre>';
 //        echo '您的订单号为:'.;
     }
+//判断用户电脑端还是手机端
+    function isMobile(){
+        $useragent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        $useragent_commentsblock=preg_match('|\(.*?\)|',$useragent,$matches)>0?$matches[0]:'';
+        function CheckSubstrs($substrs,$text){
+            foreach($substrs as $substr)
+                if(false!==strpos($text,$substr)){
+                    return true;
+                }
+            return false;
+        }
+        $mobile_os_list=array('Google Wireless Transcoder','Windows CE','WindowsCE','Symbian','Android','armv6l','armv5','Mobile','CentOS','mowser','AvantGo','Opera Mobi','J2ME/MIDP','Smartphone','Go.Web','Palm','iPAQ');
+        $mobile_token_list=array('Profile/MIDP','Configuration/CLDC-','160×160','176×220','240×240','240×320','320×240','UP.Browser','UP.Link','SymbianOS','PalmOS','PocketPC','SonyEricsson','Nokia','BlackBerry','Vodafone','BenQ','Novarra-Vision','Iris','NetFront','HTC_','Xda_','SAMSUNG-SGH','Wapaka','DoCoMo','iPhone','iPod');
 
+        $found_mobile = CheckSubstrs($mobile_os_list,$useragent_commentsblock) ||  CheckSubstrs($mobile_token_list,$useragent);
+
+        if ($found_mobile){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
 
