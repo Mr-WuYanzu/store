@@ -50,13 +50,15 @@
 						if(res.errno==1){
 						    alert(res.msg);
 						    location.href="/"
-						}else{
+						}
+						if(res.errno==2){
                             alert(res.msg);
                             location.href="/login"
 						}
-                    },
-                    error:function(res){
-                        alert("发生错误："+ res.msg);
+						if(res.errno==3){
+                            alert(res.msg);
+                            location.href="/register"
+						}
                     }
 				})
             });

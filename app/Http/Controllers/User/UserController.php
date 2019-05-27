@@ -97,13 +97,13 @@ class UserController extends Controller
         }
         //根据用户名查询数据库
         $nameInfo = UserModel::where(['user_name'=>$user_name])->first();
-        $error_num = $nameInfo->error_num;        //错误次数
-        $last_error_time=$nameInfo->last_error_time;  //最后一次错误的时间
-        $updateWhere=[
-            'user_id'=>$nameInfo->user_id
-        ];
         $time = time();
         if($nameInfo){
+            $error_num = $nameInfo->error_num;        //错误次数
+            $last_error_time=$nameInfo->last_error_time;  //最后一次错误的时间
+            $updateWhere=[
+                'user_id'=>$nameInfo->user_id
+            ];
             if(password_verify($password,$nameInfo->password)){
                 if($error_num>=3&&$time-$last_error_time<3600){
                     $remain = 60-(ceil(($time-$last_error_time)/60));
@@ -168,7 +168,7 @@ class UserController extends Controller
             }
         }else{
             $response=[
-                'errno'=>'2',
+                'errno'=>'3',
                 'msg'=> '该用户不存在，请先注册'
             ];
             return json_encode($response,JSON_UNESCAPED_UNICODE);
@@ -266,13 +266,8 @@ class UserController extends Controller
      * 退出登录
      */
     public function logout(Request $request){
-        if(!empty(session('user'))){
-            $request->session()->forget('user');
-            echo "<script>alert('退出成功');location.href='/login';</script>";
-        }else{
-            echo "<script>alert('还未登陆');location.href='/login';</script>";
-        }
-
+        $request->session()->forget('user');
+        echo "<script>alert('退出成功');location.href='/login';</script>";
     }
 
     /**
