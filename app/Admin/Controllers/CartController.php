@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Collect;
+use App\model\Cart;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class CollectController extends Controller
+class CartController extends Controller
 {
     use HasResourceActions;
 
@@ -79,16 +79,15 @@ class CollectController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Collect);
+        $grid = new Grid(new Cart);
 
-        $grid->c_id('C id');
-        $grid->user_id('用户ID');
+        $grid->id('购物车Id');
         $grid->goods_id('商品ID');
-        $grid->goods_name('商品名称');
-        $grid->goods_price('商品价格');
-        $grid->goods_num('商品库存');
-        $grid->goods_img('商品图片');
-        $grid->is_del('是否删除');
+        $grid->buy_num('购买数量');
+        $grid->user_id('用户ID');
+        $grid->created_at('Created at');
+        $grid->updated_at('Updated at');
+        $grid->status('状态');
 
         return $grid;
     }
@@ -101,16 +100,15 @@ class CollectController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Collect::findOrFail($id));
+        $show = new Show(Cart::findOrFail($id));
 
-        $show->c_id('C id');
-        $show->user_id('User id');
+        $show->id('Id');
         $show->goods_id('Goods id');
-        $show->goods_name('Goods name');
-        $show->goods_price('Goods price');
-        $show->goods_num('Goods num');
-        $show->goods_img('Goods img');
-        $show->is_del('Is del');
+        $show->buy_num('Buy num');
+        $show->user_id('User id');
+        $show->created_at('Created at');
+        $show->updated_at('Updated at');
+        $show->status('Status');
 
         return $show;
     }
@@ -122,15 +120,12 @@ class CollectController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Collect);
+        $form = new Form(new Cart);
 
-        $form->number('user_id', 'User id');
         $form->number('goods_id', 'Goods id');
-        $form->text('goods_name', 'Goods name');
-        $form->decimal('goods_price', 'Goods price');
-        $form->number('goods_num', 'Goods num');
-        $form->text('goods_img', 'Goods img');
-        $form->switch('is_del', 'Is del')->default(1);
+        $form->number('buy_num', 'Buy num');
+        $form->number('user_id', 'User id');
+        $form->switch('status', 'Status')->default(1);
 
         return $form;
     }
