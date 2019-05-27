@@ -142,7 +142,6 @@ class PayController extends Controller
                  * @return $response 支付宝返回的信息
                  */
                 $response = $aop->pagePay($payRequestBuilder,config('alipay.return_url'),config('alipay.notify_url'));
-
                 //输出表单
                 var_dump($response);
             }

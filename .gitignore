@@ -10,4 +10,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
-/app/libs/alipay/log.txt
+app/libs/alipay/log.txt
