@@ -266,8 +266,13 @@ class UserController extends Controller
      * 退出登录
      */
     public function logout(Request $request){
-        $request->session()->forget('user');
-        echo "<script>alert('退出成功');location.href='/login';</script>";
+        if(!empty(session('user'))){
+            $request->session()->forget('user');
+            echo "<script>alert('退出成功');location.href='/login';</script>";
+        }else{
+            echo "<script>alert('还未登陆');location.href='/login';</script>";
+        }
+
     }
 
     /**
