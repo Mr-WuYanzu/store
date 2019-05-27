@@ -31,6 +31,7 @@ class OrderController extends Controller
                 'errno'=>'1',
                 'msg'=>'没有此用户'
             ];
+            header('Refresh:2;url=/login');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $c_id=$request->input('c_id');
@@ -39,6 +40,7 @@ class OrderController extends Controller
                 'errno'=>'1',
                 'msg'=>'请选择购物车订单进行结算'
             ];
+            header('Refresh:2;url=/cart/list');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $c_id=explode(',',$c_id);
