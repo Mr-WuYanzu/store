@@ -147,7 +147,7 @@ class PayController extends Controller
                 var_dump($response);
             }
         }else if($order_info->pay_way==1){
-            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android'){
+            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android')){
                 //微信支付
                 $total_fee=1;
                 $order_id=$order_info->order_no;
