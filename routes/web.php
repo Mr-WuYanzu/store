@@ -51,6 +51,8 @@ Route::get('/weixin/paystatus','pay\PayController@paystatus');
 //微信支付成功同步跳转
 Route::get('/weixin/supay','pay\PayController@supay');
 
+//微信登录
+Route::get('/wxlogin','wx\WxController@wxlogin');
 //微信授权
 Route::get('/wx','wx\WxController@wx');
 //使用微信登录
