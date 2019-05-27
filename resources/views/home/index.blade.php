@@ -197,16 +197,16 @@
 			$(this).click(function(){
 				var goods_id=$(this).attr('goods_id');
 				$.get(
-						'/cart/add/'+goods_id,
-						function(res){
-							if(res.errno==0){
-								alert(res.msg);
-								location.href="/cart/list";
-							}else{
-								alert(res.msg);
-							}
-						},
-						'json'
+					'/cart/add/'+goods_id,
+					function(res){
+						if(res.errno==0){
+							alert(res.msg);
+							location.href="/cart/list";
+						}else{
+							alert(res.msg);
+						}
+					},
+					'json'
 				)
 			})
 		})
