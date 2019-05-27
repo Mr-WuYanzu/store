@@ -58,5 +58,3 @@ Route::post('/wxuser','wx\WxController@wxuser');
 //绑定微信
 Route::post('/wxadd','wx\WxController@wxadd');
 
-
-
