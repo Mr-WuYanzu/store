@@ -46,3 +46,7 @@ Route::get('/return_url','pay\PayController@aliReturn');
 Route::get('/cart/add/{goods_id?}','cart\CartController@cart_add');
 
 
+//微信授权
+Route::get('/wx','wx\WxController@wx');
+
+
