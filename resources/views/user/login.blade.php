@@ -20,6 +20,9 @@
 						</div>
 						<a href="/forget" class="forget"><h6>忘记密码?</h6></a>
 						<a class="btn button-default">点击登录</a>
+						<a href="/wxlogin" style="float: right">
+							<img src="/img/wxlogo.png">
+						</a>
 					</form>
 				</div>
 			</div>
