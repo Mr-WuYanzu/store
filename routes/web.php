@@ -44,5 +44,10 @@ Route::get('/notify_url','pay\PayController@notify');
 Route::get('/return_url','pay\PayController@aliReturn');
 //加入购物车
 Route::get('/cart/add/{goods_id?}','cart\CartController@cart_add');
-
+//微信支付异步回调
+Route::post('/weixin/pay/notify','pay\PayController@notify_url');
+//验证微信是否支付成功
+Route::get('/weixin/paystatus','pay\PayController@paystatus');
+//微信支付成功同步跳转
+Route::get('/weixin/supay','pay\PayController@supay');
 

@@ -217,7 +217,7 @@ class OrderController extends Controller
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
-        $order_info=Order::where(['user_id'=>$user_id])->get();
+        $order_info=Order::where(['user_id'=>$user_id,'status'=>0])->get();
 
         return view('order/o_list',['order_info'=>$order_info]);
     }

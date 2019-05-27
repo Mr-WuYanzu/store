@@ -115,6 +115,7 @@ class CartController extends Controller
             $response=[
                 'msg'=>'没有此用户'
             ];
+            header('Refresh:2;url=/login');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $cart_info=Cart::join('shop_goods','shop_cart.goods_id','=','shop_goods.goods_id')
