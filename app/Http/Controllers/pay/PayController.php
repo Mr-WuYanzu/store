@@ -75,8 +75,8 @@ class PayController extends Controller
             die('该订单号不存在,三秒钟后会跳转至主页');
         }
         if($order_info->pay_way==2){
-            dd($this->isMobile());
-            if($this->isMobile()){
+
+            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android') ){
                 //            支付宝支付
                 //业务参数
                 $bizcont = [
@@ -147,7 +147,7 @@ class PayController extends Controller
                 var_dump($response);
             }
         }else if($order_info->pay_way==1){
-            if($this->isMobile()){
+            if( strstr ($_SERVER['HTTP_USER_AGENT'],'Android'){
                 //微信支付
                 $total_fee=1;
                 $order_id=$order_info->order_no;
