@@ -53,5 +53,10 @@ Route::get('/weixin/supay','pay\PayController@supay');
 
 //微信授权
 Route::get('/wx','wx\WxController@wx');
+//使用微信登录
+Route::post('/wxuser','wx\WxController@wxuser');
+//绑定微信
+Route::post('/wxadd','wx\WxController@wxadd');
+
 
 
