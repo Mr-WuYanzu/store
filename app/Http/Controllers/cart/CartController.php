@@ -97,7 +97,6 @@ class CartController extends Controller
     }
     //购物车列表
     public function cart_list(){
-                session(['user'=>['user_email'=>'ssss','user_id'=>1]]);
         $res=json_decode($this->cart_little(),true);
 
         //获取用户id
@@ -116,6 +115,7 @@ class CartController extends Controller
             $response=[
                 'msg'=>'没有此用户'
             ];
+            header('Refresh:2;url=/login');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $cart_info=Cart::join('shop_goods','shop_cart.goods_id','=','shop_goods.goods_id')
