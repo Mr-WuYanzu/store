@@ -32,10 +32,10 @@ CeHjV24AGe2iaTiyiebzMNELj01TB5M+6VE69XvmwL/bBr3iguhUeyHWHD7QYDcL
 1HqpdUP0fTq1GUzc2Y/qblRRftCcYo5jq0lkXZ3QAsjMKX1Idk6iEQ==",
 
     //异步通知地址
-    'notify_url' => "http://api.zhbcto.com/notify_url",
+    'notify_url' => "http://store.zhbcto.com/notify_url",
 
     //同步跳转
-    'return_url' => "http://api.zhbcto.com/return_url",
+    'return_url' => "http://store.zhbcto.com/return_url",
 
     //编码格式
     'charset' => "UTF-8",
