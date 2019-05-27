@@ -46,14 +46,14 @@ class CartController extends Controller
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
 //        查询商品是否存在
-        $res=Goods::where('goods_id',$goods_id)->first();
-        if(!$res){
+        $goods_info=Goods::where('goods_id',$goods_id)->first();
+        if(!$goods_info){
             $response=[
                 'errno'=>'1',
                 'msg'=>'此商品不存在'
             ];
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
-        }else if($res->status!=1){
+        }else if($goods_info->status!=1){
             $response=[
                 'errno'=>'1',
                 'msg'=>'商品已下架'
@@ -63,21 +63,37 @@ class CartController extends Controller
 //        验证此商品是否被此用户加入购物车，如果加入则修改商品购买数量
         $rs=Cart::where(['goods_id'=>$goods_id,'user_id'=>$user_id])->first();
         if($rs){
-            $res=Cart::where('id',$rs->id)->update(['buy_num'=>$rs->buy_num+$buy_num,'updated_at'=>time()]);
-            if($res){
+            if($rs->buy_num+$buy_num>$goods_info->goods_num){
                 $response=[
-                    'errno'=>'0',
-                    'msg'=>'加入成功'
+                    'errno'=>'1',
+                    'msg'=>'商品库存不足'
                 ];
                 die(json_encode($response,JSON_UNESCAPED_UNICODE));
             }else{
+                $res=Cart::where('id',$rs->id)->update(['buy_num'=>$rs->buy_num+$buy_num,'updated_at'=>time()]);
+                if($res){
+                    $response=[
+                        'errno'=>'0',
+                        'msg'=>'加入成功'
+                    ];
+                    die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                }else{
+                    $response=[
+                        'errno'=>'1',
+                        'msg'=>'加入失败'
+                    ];
+                    die(json_encode($response,JSON_UNESCAPED_UNICODE));
+                }
+            }
+
+        }else{
+            if($buy_num>$goods_info->goods_num){
                 $response=[
                     'errno'=>'1',
-                    'msg'=>'加入失败'
+                    'msg'=>'商品库存不足'
                 ];
                 die(json_encode($response,JSON_UNESCAPED_UNICODE));
             }
-        }else{
             //否则加入购物车  入库
             $res=Cart::insert(['user_id'=>$user_id,'goods_id'=>$goods_id,'buy_num'=>$buy_num,'created_at'=>time()]);
             if($res){

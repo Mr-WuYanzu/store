@@ -277,8 +277,40 @@ class PayController extends Controller
         $p = json_encode($_POST);
         $log_str = "\n>>>>>> " .date('Y-m-d H:i:s') . ' '.$p . " \n";
         file_put_contents('logs/alipay_notify',$log_str,FILE_APPEND);
-        echo 'success';
         //TODO 验签 更新订单状态
+        //商户订单号
+                 $out_trade_no = $_POST['out_trade_no'];
+
+                 //支付宝交易号
+
+                 $trade_no = $_POST['trade_no'];
+
+                 //交易状态
+                 $trade_status = $_POST['trade_status'];
+
+
+                 if($_POST['trade_status'] == 'TRADE_FINISHED') {
+                     //判断该笔订单是否在商户网站中已经做过处理
+                         //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                         //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                         //如果有做过处理，不执行商户的业务程序
+
+                     //注意：
+                     //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+                 }else if($_POST['trade_status'] == 'TRADE_SUCCESS') {
+                     //付款完成 逻辑处理
+                     //修改订单状态
+                    Order::where('order_no',$out_trade_no)->update(['status'=>1]);
+                    $goods_info=Order::join('shop_order_detail','shop_order.order_no','=','shop_order_detail.order_no')
+                            ->join('shop_goods','shop_goods.goods_id','=','shop_order_detail.goods_id')
+                            ->where('order_no',$out_trade_no)
+                            ->get();
+                    foreach($goods_info as $k=>$v){
+                        Goods::where('goods_id',$v->goods_id)->update(['goods_num'=>$v->goods_num-$v->buy_num]);
+                    }
+                 }
+                 //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+                 echo "success";     //请不要修改或删除
     }
     /**
      * 支付宝同步通知
