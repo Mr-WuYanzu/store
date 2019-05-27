@@ -69,11 +69,12 @@ class PayController extends Controller
         $oid=$request->input('oid');
         //验证订单状态 是否已支付 是否是有效订单
         $order_info = Order::where(['order_id'=>$oid,'status'=>0,'pay_status'=>1,'user_id'=>$user_id])->first();
+
         if(!$order_info){
             header('Refresh:2;url=/index');
             die('该订单号不存在,三秒钟后会跳转至主页');
         }
-        if($order_info->pay_war==2){
+        if($order_info->pay_way==2){
 //            支付宝支付
             //业务参数
             $bizcont = [

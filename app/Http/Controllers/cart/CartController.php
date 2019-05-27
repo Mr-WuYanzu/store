@@ -119,7 +119,7 @@ class CartController extends Controller
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $cart_info=Cart::join('shop_goods','shop_cart.goods_id','=','shop_goods.goods_id')
-            ->where('user_id',$user_id)
+            ->where(['user_id'=>$user_id,'shop_cart.status'=>1])
             ->get();
         return view('cart.cart_list',['cart_info'=>$cart_info,'res'=>$res]);
     }
