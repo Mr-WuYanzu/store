@@ -43,7 +43,7 @@
                         }
                 )
             }else{
-
+                location.href="/";
             }
     })
 </script>
