@@ -21,6 +21,7 @@ class OrderController extends Controller
                 'errno'=>1,
                 'msg'=>'请登录'
             ];
+            header('Refresh:2;url=/login');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
 //        验证此用户是否存在
@@ -44,7 +45,7 @@ class OrderController extends Controller
 //        dd($c_id);
 //        echo $c_id[1];die;
         for($i=0;$i<count($c_id);$i++){
-            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i]])->get();
+            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i],'status'=>1])->get();
             if(!$cart_info){
                 $response=[
                     'errno'=>'1',
@@ -111,11 +112,11 @@ class OrderController extends Controller
         }
         $c_id=explode(',',$c_id);
         for($i=0;$i<count($c_id);$i++){
-            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i]])->get();
+            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i],'status'=>1])->get();
             if(!$cart_info){
                 $response=[
                     'errno'=>'1',
-                    'msg'=>'请选择正确的购物车订单'
+                    'msg'=>'购物车订单不存在'
                 ];
                 die(json_encode($response,JSON_UNESCAPED_UNICODE));
             }
@@ -182,6 +183,9 @@ class OrderController extends Controller
         ];
         $res=Address::insert($address);
         if($res){
+            foreach ($cart_info as $k=>$v){
+                Cart::where('id',$v['id'])->update(['status'=>2]);
+            }
             $response=[
                 'errno'=>'0',
                 'msg'=>'生成订单成功',
