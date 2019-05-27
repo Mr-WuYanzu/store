@@ -166,7 +166,7 @@
 			@foreach($goods_best_info as $k=>$v)
 				<div class="col s6">
 					<div class="content">
-						<img src="\img\{{$v->goods_img}}" style="width: 350px;height: 500px">
+						<img src="\img\{{$v->goods_img}}">
 						<h6><a href="/goodsdetail/{{$v->goods_id}}">{{$v->goods_name}}</a></h6>
 						<div class="price">
 							${{$v->goods_price}} <span>${{$v->goods_bzprice}}</span>
