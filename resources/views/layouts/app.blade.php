@@ -41,12 +41,13 @@
     <div class="side-nav-panel-right">
         <ul id="slide-out-right" class="side-nav side-nav-panel collapsible">
             <li class="profil">
-                <img src="img/profile.jpg" alt="">
-                <h2>John Doe</h2>
                 @if(session('user'))
+                <img src="img/tou.jpg" alt="">
+                <h2>{{session('user.user_name')}}</h2>
                 <a href="/logout" style="color:rebeccapurple">退出登录</a>
                 @else
-
+                    <img src="img/profile.jpg" alt="">
+                    <h2><a href="/login" style="color:sandybrown">去登陆</a></h2>
                 @endif
             </li>
             <li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
