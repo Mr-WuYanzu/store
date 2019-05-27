@@ -94,6 +94,7 @@ class CollectController extends Controller
                 'errno'=>50006,
                 'msg'=>'请登录'
             ];
+
             echo "<script>alert('请登录...');location.href='/login';</script>";
             return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
