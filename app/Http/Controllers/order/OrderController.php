@@ -31,6 +31,7 @@ class OrderController extends Controller
                 'errno'=>'1',
                 'msg'=>'没有此用户'
             ];
+            header('Refresh:2;url=/login');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $c_id=$request->input('c_id');
@@ -39,6 +40,7 @@ class OrderController extends Controller
                 'errno'=>'1',
                 'msg'=>'请选择购物车订单进行结算'
             ];
+            header('Refresh:2;url=/cart/list');
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $c_id=explode(',',$c_id);
@@ -112,7 +114,7 @@ class OrderController extends Controller
         }
         $c_id=explode(',',$c_id);
         for($i=0;$i<count($c_id);$i++){
-            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i],'status'=>1])->get();
+            $cart_info=Cart::where(['user_id'=>$user_id,'id'=>$c_id[$i],'status'=>1])->first();
             if(!$cart_info){
                 $response=[
                     'errno'=>'1',
@@ -126,10 +128,10 @@ class OrderController extends Controller
         //求出总金额
         $count_price=0;
         $cart_info=Cart::join('shop_goods','shop_goods.goods_id','=','shop_cart.goods_id')
-                    ->where('user_id',$user_id)
-                    ->whereIn('id',$c_id)->get()->toArray();
+                    ->where(['user_id'=>$user_id,'shop_cart.status'=>1])
+                    ->whereIn('id',$c_id)->get();
         foreach($cart_info as $k=>$v){
-            $count_price+=$v['buy_num']*$v['goods_price'];
+            $count_price+=$v->buy_num*$v->goods_price;
         }
 
 //        加入订单表
@@ -154,11 +156,11 @@ class OrderController extends Controller
                 'order_id'=>$oid,
                 'order_no'=>$order_no,
                 'user_id'=>$user_id,
-                'goods_id'=>$v['goods_id'],
-                'buy_num'=>$v['buy_num'],
-                'goods_price'=>$v['goods_price'],
-                'goods_name'=>$v['goods_name'],
-                'goods_img'=>$v['goods_img'],
+                'goods_id'=>$v->goods_id,
+                'buy_num'=>$v->buy_num,
+                'goods_price'=>$v->goods_price,
+                'goods_name'=>$v->goods_name,
+                'goods_img'=>$v->goods_img,
                 'create_time'=>time(),
             ];
             $rs=Detail::insert($detail_data);
@@ -184,7 +186,7 @@ class OrderController extends Controller
         $res=Address::insert($address);
         if($res){
             foreach ($cart_info as $k=>$v){
-                Cart::where('id',$v['id'])->update(['status'=>2]);
+                Cart::where('id',$v->id)->update(['status'=>2]);
             }
             $response=[
                 'errno'=>'0',
@@ -222,7 +224,7 @@ class OrderController extends Controller
             die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
         $order_info=Order::where(['user_id'=>$user_id,'status'=>0])->get();
-
-        return view('order/o_list',['order_info'=>$order_info]);
+        $res=json_decode($this->cart_little(),true);
+        return view('order/o_list',['order_info'=>$order_info,'res'=>$res]);
     }
 }

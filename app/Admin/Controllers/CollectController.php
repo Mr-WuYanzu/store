@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Model\Collect;
+use App\Collect;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -82,13 +82,13 @@ class CollectController extends Controller
         $grid = new Grid(new Collect);
 
         $grid->c_id('C id');
-        $grid->user_id('User id');
-        $grid->goods_id('Goods id');
-        $grid->goods_name('Goods name');
-        $grid->goods_price('Goods price');
-        $grid->goods_num('Goods num');
-        $grid->goods_img('Goods img');
-        $grid->is_del('Is del');
+        $grid->user_id('用户ID');
+        $grid->goods_id('商品ID');
+        $grid->goods_name('商品名称');
+        $grid->goods_price('商品价格');
+        $grid->goods_num('商品库存');
+        $grid->goods_img('商品图片');
+        $grid->is_del('是否删除');
 
         return $grid;
     }
@@ -124,7 +124,6 @@ class CollectController extends Controller
     {
         $form = new Form(new Collect);
 
-        $form->number('c_id', 'C id');
         $form->number('user_id', 'User id');
         $form->number('goods_id', 'Goods id');
         $form->text('goods_name', 'Goods name');

@@ -14,7 +14,7 @@
 			<h2>John Doe</h2>
 		</li>
 		<li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
-		<li><a href="about-us.html"><i class="fa fa-user"></i>About Us</a></li>
+		<li><a href="/about_us"><i class="fa fa-user"></i>About Us</a></li>
 		<li><a href="contact.html"><i class="fa fa-envelope-o"></i>Contact Us</a></li>
 		<li><a href="/login"><i class="fa fa-sign-in"></i>Login</a></li>
 		<li><a href="/register"><i class="fa fa-user-plus"></i>Register</a></li>
@@ -33,25 +33,25 @@
 		<li>
 			<img src="img/a1.jpg" alt="">
 			<div class="caption slider-content  center-align">
-				<h2>WELCOME TO MSTORE</h2>
-				<h4>Lorem ipsum dolor sit amet.</h4>
-				<a href="" class="btn button-default">SHOP NOW</a>
+				<h2 style="color:pink">⭐今日美食⭐</h2>
+				<h4>中考八百米---木瓜炖雪梨---芝士玉米粒---鸡汁土豆泥</h4>
+				<a href="" class="btn button-default">进入美味之旅</a>
 			</div>
 		</li>
 		<li>
-			<img src="img/a2.jpg" alt="">
+			<img src="img/adi.jpeg" alt="">
 			<div class="caption slider-content center-align">
-				<h2>JACKETS BUSINESS</h2>
-				<h4>Lorem ipsum dolor sit amet.</h4>
-				<a href="" class="btn button-default">SHOP NOW</a>
+				<h2 style="color:pink">👗今日美衣</h2>
+				<h4>礼服配球鞋？</h4>
+				<a href="" class="btn button-default">进入我的衣橱</a>
 			</div>
 		</li>
 		<li>
 			<img src="img/a3.jpg" alt="">
 			<div class="caption slider-content center-align">
-				<h2>FASHION SHOP</h2>
-				<h4>Lorem ipsum dolor sit amet.</h4>
-				<a href="" class="btn button-default">SHOP NOW</a>
+				<h2 style="color:pink">☀小小祝福</h2>
+				<h4>一些该拿起的要拿起，一些该舍弃的要舍弃。因为，只有让该结束的结束了，该开始的才会开始</h4>
+				<a href="" class="btn button-default">Happy☺</a>
 			</div>
 		</li>
 	</ul>
@@ -68,7 +68,7 @@
 					<div class="icon">
 						<i class="fa fa-car"></i>
 					</div>
-					<h6>Free Shipping</h6>
+					<h6>免费送货</h6>
 					<p>Lorem ipsum dolor sit amet consectetur</p>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 					<div class="icon">
 						<i class="fa fa-dollar"></i>
 					</div>
-					<h6>Money Back</h6>
+					<h6>七天无理由退换</h6>
 					<p>Lorem ipsum dolor sit amet consectetur</p>
 				</div>
 			</div>
@@ -88,7 +88,7 @@
 					<div class="icon">
 						<i class="fa fa-lock"></i>
 					</div>
-					<h6>Secure Payment</h6>
+					<h6>安全支付</h6>
 					<p>Lorem ipsum dolor sit amet consectetur</p>
 				</div>
 			</div>
@@ -166,7 +166,7 @@
 			@foreach($goods_best_info as $k=>$v)
 				<div class="col s6">
 					<div class="content">
-						<img src="\img\{{$v->goods_img}}" style="width: 350px;height: 500px">
+						<img src="\img\{{$v->goods_img}}">
 						<h6><a href="/goodsdetail/{{$v->goods_id}}">{{$v->goods_name}}</a></h6>
 						<div class="price">
 							${{$v->goods_price}} <span>${{$v->goods_bzprice}}</span>

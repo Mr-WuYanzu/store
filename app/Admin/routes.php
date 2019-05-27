@@ -17,7 +17,9 @@ Route::group([
     $router->resource('goods', GoodsController::class);
     $router->resource('collect', CollectController::class);
     $router->resource('user', UserController::class);
-
+    $router->resource('order', OrderController::class);
+    $router->resource('cart', CartController::class);
+    $router->resource('address', AddressController::class);
 });
 
 
